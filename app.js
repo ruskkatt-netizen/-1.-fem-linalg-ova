@@ -109,19 +109,20 @@ function det(A) {
   return d;
 }
 
-const allExerciseIds = MODULES.flatMap(m => m.exercises.map(e => e.id));
+function moduleExercises(m) { return m.sections.flatMap(s => s.exercises); }
+const allExerciseIds = MODULES.flatMap(m => moduleExercises(m).map(e => e.id));
 
 function renderNav(activeId) {
   const nav = document.getElementById("nav");
   const solved = loadSolved();
   let html = '<div class="nav-section">Grunder</div>';
   MODULES.slice(0, 9).forEach(m => {
-    const done = m.exercises.every(e => solved[e.id]);
+    const done = moduleExercises(m).every(e => solved[e.id]);
     html += '<a href="#/' + m.id + '" data-id="' + m.id + '" class="' + (activeId === m.id ? "active" : "") + (done ? " done" : "") + '"><span class="dot"></span>' + m.title + "</a>";
   });
   html += '<div class="nav-section">FEM</div>';
   const m10 = MODULES[9];
-  const done10 = m10.exercises.every(e => solved[e.id]);
+  const done10 = moduleExercises(m10).every(e => solved[e.id]);
   html += '<a href="#/' + m10.id + '" data-id="' + m10.id + '" class="' + (activeId === m10.id ? "active" : "") + (done10 ? " done" : "") + '"><span class="dot"></span>' + m10.title + "</a>";
   html += '<a href="#/labb" data-id="labb" class="' + (activeId === "labb" ? "active" : "") + '"><span class="dot"></span>Fjäderlabbet (interaktivt)</a>';
   nav.innerHTML = html;
@@ -171,12 +172,13 @@ function showModule(id) {
   mv.classList.remove("hidden");
   const solved = loadSolved();
   let html = "<h2 class='module-title'>" + m.title + "</h2><p class='module-intro'>" + m.intro + "</p>";
-  html += '<div class="card"><h3>Teori – enkelt förklarat</h3>' + m.theory.join("") + '<div class="why">' + m.why + "</div></div>";
-  html += '<div class="card"><h3>' + m.example.title + "</h3>" + '<div class="example-box">' + m.example.html + "</div></div>";
-  html += '<div class="card"><h3>Övningar</h3><p style="color:var(--muted);font-size:0.88rem;margin-top:0">Skriv svaret och klicka ”Kolla svar”. Vektorer skrivs med kommatecken mellan komponenterna. Matriser fylls i rad för rad.</p>';
-  html += m.exercises.map(exerciseHtml).join("") + "</div>";
+  m.sections.forEach(sec => {
+    html += '<div class="card"><h3>' + sec.title + "</h3>" + sec.html;
+    html += '<p style="color:var(--muted);font-size:0.88rem;margin-bottom:0">Övningar – skriv svaret och klicka ”Kolla svar”. Vektorer skrivs med kommatecken mellan komponenterna; matriser fylls i rad för rad.</p>';
+    html += sec.exercises.map(exerciseHtml).join("") + "</div>";
+  });
   mv.innerHTML = html;
-  m.exercises.forEach(ex => {
+  moduleExercises(m).forEach(ex => {
     if (solved[ex.id]) markSolved(ex.id, false);
   });
   renderNav(id);
@@ -216,7 +218,7 @@ function markSolved(id, announce) {
 }
 
 function checkExercise(id) {
-  const ex = MODULES.flatMap(m => m.exercises).find(e => e.id === id);
+  const ex = MODULES.flatMap(m => moduleExercises(m)).find(e => e.id === id);
   const fb = document.getElementById("fb-" + id);
   let ok = false, msg = "";
   if (ex.type === "num") {

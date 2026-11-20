@@ -23,7 +23,7 @@ Baserat på föreläsningshandoutsen:
 9. Egenvärden och egenvektorer
 10. FEM-kopplingen: elementstyvhetsmatriser, assemblering, randvillkor, 2D-stång
 
-Varje modul: enkel teori, "varför i FEM?", ett genomgånget exempel och övningar med ledtrådar, facit och direkt rättning. Framsteg sparas i webbläsaren (localStorage).
+Varje modul är uppdelad i mindre avsnitt – och **varje avsnitt avslutas med egna övningar** (ledtrådar, facit, direkt rättning), plus genomgångna exempel där det passar. Totalt 27 avsnitt och 47 övningar. Framsteg sparas i webbläsaren (localStorage).
 
 ### Fjäderlabbet
 
