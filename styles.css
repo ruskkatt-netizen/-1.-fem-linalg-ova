@@ -67,6 +67,32 @@ h2.module-title { font-size: 1.6rem; margin: 0 0 4px; }
 }
 .card h3 { margin-top: 0; font-size: 1.1rem; }
 .card h4 { margin-bottom: 6px; }
+.illus {
+  margin: 10px 0 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+.illus svg { max-width: 430px; width: 100%; height: auto; }
+.tip-box {
+  background: #eef6ff;
+  border: 1px solid #cfe4fd;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+.mistake-box {
+  background: var(--bad-bg);
+  border: 1px solid #f5c6c0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+.mistake-box strong { color: var(--bad); }
 .why {
   background: var(--warn-bg);
   border: 1px solid #f2dfae;

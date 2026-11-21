@@ -110,18 +110,20 @@ function det(A) {
 }
 
 function moduleExercises(m) { return m.sections.flatMap(s => s.exercises); }
+const MOD_IMG = { m0: "koordinater", m1: "pythagoras", m2: "skalar", m3: "kryss", m4: "matris", m5: "matvec", m6: "det", m7: "gauss", m8: "kvadratisk", m9: "egen", m10: "femflode" };
+function sectionImg(m, sec) { const k = sec.img || MOD_IMG[m.id]; return ILLUS[k] ? '<div class="illus">' + ILLUS[k]() + "</div>" : ""; }
 const allExerciseIds = MODULES.flatMap(m => moduleExercises(m).map(e => e.id));
 
 function renderNav(activeId) {
   const nav = document.getElementById("nav");
   const solved = loadSolved();
   let html = '<div class="nav-section">Grunder</div>';
-  MODULES.slice(0, 9).forEach(m => {
+  MODULES.slice(0, 10).forEach(m => {
     const done = moduleExercises(m).every(e => solved[e.id]);
     html += '<a href="#/' + m.id + '" data-id="' + m.id + '" class="' + (activeId === m.id ? "active" : "") + (done ? " done" : "") + '"><span class="dot"></span>' + m.title + "</a>";
   });
   html += '<div class="nav-section">FEM</div>';
-  const m10 = MODULES[9];
+  const m10 = MODULES[10];
   const done10 = moduleExercises(m10).every(e => solved[e.id]);
   html += '<a href="#/' + m10.id + '" data-id="' + m10.id + '" class="' + (activeId === m10.id ? "active" : "") + (done10 ? " done" : "") + '"><span class="dot"></span>' + m10.title + "</a>";
   html += '<a href="#/labb" data-id="labb" class="' + (activeId === "labb" ? "active" : "") + '"><span class="dot"></span>Fjäderlabbet (interaktivt)</a>';
@@ -173,7 +175,7 @@ function showModule(id) {
   const solved = loadSolved();
   let html = "<h2 class='module-title'>" + m.title + "</h2><p class='module-intro'>" + m.intro + "</p>";
   m.sections.forEach(sec => {
-    html += '<div class="card"><h3>' + sec.title + "</h3>" + sec.html;
+    html += '<div class="card"><h3>' + sec.title + "</h3>" + sectionImg(m, sec) + sec.html;
     html += '<p style="color:var(--muted);font-size:0.88rem;margin-bottom:0">Övningar – skriv svaret och klicka ”Kolla svar”. Vektorer skrivs med kommatecken mellan komponenterna; matriser fylls i rad för rad.</p>';
     html += sec.exercises.map(exerciseHtml).join("") + "</div>";
   });
@@ -283,6 +285,7 @@ function showLab() {
   lv.classList.remove("hidden");
   lv.innerHTML = '<h2 class="module-title">Fjäderlabbet 🔧</h2>' +
     '<p class="module-intro">Bygg ett 1D-system av fjädrar, precis som i föreläsning 2–3. Sidan assemblerar den globala styvhetsmatrisen K, visar dess egenskaper, lägger på randvillkor och löser K·u = f åt dig – steg för steg.</p>' +
+    '<div class="illus">' + ILLUS.fjader() + '</div>' +
     '<div class="card"><h3>Inställningar</h3>' +
     '<div class="lab-controls">' +
     '<div><label>Antal fjädrar (element)</label><select id="lab-n">' + [1,2,3,4,5,6].map(i => '<option value="' + i + '"' + (i === labState.n ? " selected" : "") + ">" + i + "</option>").join("") + "</select></div>" +

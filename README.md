@@ -12,10 +12,11 @@ Baserat på föreläsningshandoutsen:
 
 ### Moduler
 
-1. Vektorer och längd (norm)
+0. **Från allra grunden**: tal, koordinatsystem, punkter, pilar (vektorer), Pythagoras
+1. Vektorer i flera dimensioner (addition, skalning, norm)
 2. Skalärprodukt och vinkel mellan vektorer
 3. Kryssprodukt (3D)
-4. Matriser: uppbyggnad och transponat
+4. Matriser: uppbyggnad, transponat, symmetriska matriser
 5. Matrisoperationer (matris×vektor, matris×matris, icke-kommutativitet)
 6. Determinant och invers
 7. Linjära ekvationssystem Ax = b och Gauss-eliminering
@@ -23,7 +24,7 @@ Baserat på föreläsningshandoutsen:
 9. Egenvärden och egenvektorer
 10. FEM-kopplingen: elementstyvhetsmatriser, assemblering, randvillkor, 2D-stång
 
-Varje modul är uppdelad i mindre avsnitt – och **varje avsnitt avslutas med egna övningar** (ledtrådar, facit, direkt rättning), plus genomgångna exempel där det passar. Totalt 27 avsnitt och 47 övningar. Framsteg sparas i webbläsaren (localStorage).
+Varje modul är uppdelad i mindre avsnitt. **Varje avsnitt har en egen illustration** (inbyggda SVG-diagram, plus foton från Wikimedia Commons i FEM-delen), en grundlig enkel förklaring med ”tänk så här”-analogi och ”vanligt misstag”-ruta, och avslutas med **egna övningar** (ledtråd, facit, direkt rättning). Totalt 31 avsnitt och 65 övningar. Framsteg sparas i webbläsaren (localStorage).
 
 ### Fjäderlabbet
 
@@ -44,4 +45,5 @@ Interaktivt 1D-fjädersystem: välj antal element, fjäderkonstanter, noder, las
 - `index.html` – sidan
 - `styles.css` – utseende
 - `content.js` – allt innehåll (moduler, teori, exempel, övningar)
+- `svg.js` – alla illustrationer som inbyggd SVG (självförsörjande, fungerar offline)
 - `app.js` – motor: övningsrättning, framsteg, fjäderlabbet (assemblering, Gauss-eliminering, Jacobi-egenvärden)
