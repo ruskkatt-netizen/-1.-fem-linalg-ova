@@ -195,12 +195,11 @@ function showHome() {
   const n = allExerciseIds.filter(id => solved[id]).length;
   mv.innerHTML =
     '<h2 class="module-title">Välkommen! 👋</h2>' +
-    '<div class="card"><p>Den här sidan hjälper dig att träna den <strong>linjära algebra</strong> du behöver i FEM-kursen (MT169A). Innehållet följer dina föreläsningshandouts:</p>' +
-    '<ul><li>Föreläsning 1: kursinfo + <em>repetition av linjär algebra</em> (vektorer, matriser, determinanter, ekvationssystem, kvadratiska former) → modul 1–9</li>' +
+    '<div class="card"><p>Den här sidan hjälper dig att träna den <strong>linjära algebra</strong> du behöver i FEM-kursen (MT169A) – från allra grunden, med bilder och enkla förklaringar. Innehållet följer dina föreläsningshandouts:</p>' +
+    '<ul><li>Föreläsning 1: kursinfo + <em>repetition av linjär algebra</em> → modul 0–9 (börja med modul 0 om du vill börja helt från början)</li>' +
     '<li>Föreläsning 2–3: <em>system av fjädrar och stänger</em> (styvhetsmatriser, assemblering, randvillkor) → modul 10 + fjäderlabbet</li></ul>' +
-    '<p>Varje modul har en kort förklaring, ett genomgånget exempel och övningar med ledtrådar och facit. Dina framsteg sparas i webbläsaren: <strong>' + n + " av " + allExerciseIds.length + " övningar klara</strong>.</p>" +
-    '<p>Arbeta från modul 1 och framåt – börja gärna där, även om du ”kan” detta: i FEM behöver man vara säker på matrisräkningen!</p>' +
-    '<p><a href="#/m1"><button class="primary">Starta med modul 1: Vektorer →</button></a></p></div>';
+    '<p>Varje avsnitt har en <strong>illustration</strong>, en enkel förklaring med analogi, och <strong>övningar direkt efter</strong> med ledtrådar och facit. Dina framsteg sparas i webbläsaren: <strong>' + n + " av " + allExerciseIds.length + " övningar klara</strong>.</p>" +
+    '<p><a href="#/m0"><button class="primary">Starta från början: modul 0 →</button></a></p></div>';
   renderNav(null);
 }
 
