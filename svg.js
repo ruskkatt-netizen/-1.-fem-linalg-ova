@@ -73,13 +73,34 @@ const ILLUS = {
     s += txt(210, 40, "Skalärprodukten mäter hur mycket vektorerna ”pekar åt samma håll”.", 12.5, C.ink);
     return svgWrap(s);
   },
+  kryss_steg: function () {
+    let s = AH;
+    s += txt(210, 26, "Varje komponent = ett litet 2×2-determinanttal (”minor”):", 13, C.ink, "middle", 700);
+    function minor(x, y, label, a, b, c, d, color) {
+      let g = rect(x, y, 92, 74, "#fff", C.grid, 5);
+      g += line(x - 5, y, x - 5, y + 74, color, 3) + line(x + 92 + 5 - 4, y, x + 92 + 5 - 4, y + 74, color, 3);
+      g += txt(x + 24, y + 30, a, 14, C.ink, "middle") + txt(x + 68, y + 30, b, 14, C.ink, "middle");
+      g += txt(x + 24, y + 62, c, 14, C.ink, "middle") + txt(x + 68, y + 62, d, 14, C.ink, "middle");
+      g += txt(x + 46, y - 8, label, 13, color, "middle", 700);
+      return g;
+    }
+    s += minor(24, 60, "x-komponent: a₂b₃ − a₃b₂", "a₂","a₃","b₂","b₃", C.accent);
+    s += minor(164, 60, "y-komponent: a₃b₁ − a₁b₃", "a₃","a₁","b₃","b₁", C.good);
+    s += minor(304, 60, "z-komponent: a₁b₂ − a₂b₁", "a₁","a₂","b₁","b₂", C.bad);
+    s += txt(210, 175, "a × b = ( a₂b₃ − a₃b₂ ,  a₃b₁ − a₁b₃ ,  a₁b₂ − a₂b₁ )", 14, C.ink, "middle", 700);
+    s += txt(210, 205, "Tips: komponenten som saknas (t.ex. x) räknas ut av de ANDRA två indexen (y och z), i cirkulär ordning 1→2→3.", 11.5, C.ink);
+    s += txt(210, 228, "Exempel: (1,2,3) × (4,5,6) → x: 2·6−3·5 = −3,  y: 3·4−1·6 = 6,  z: 1·5−2·4 = −3  →  (−3, 6, −3)", 11.5, C.accent);
+    return svgWrap(s, 420, 240);
+  },
   kryss: function () {
     let s = AH;
     s += arrow(80, 200, 340, 200, C.ink, 2) + txt(346, 204, "x", 13) + arrow(80, 200, 80, 40, C.ink, 2) + txt(74, 34, "z", 13) + line(80, 200, 200, 250, C.ink, 2) + txt(208, 256, "y", 13);
-    s += arrow(80, 200, 250, 160, C.accent, 4) + txt(258, 158, "a", 14, C.accent, "start", 700);
-    s += arrow(80, 200, 160, 120, C.good, 4) + txt(150, 112, "b", 14, C.good);
-    s += arrow(80, 200, 80, 60, C.bad, 5) + txt(92, 66, "a × b", 14, C.bad, "start", 700);
-    s += txt(210, 30, "Högerhandsregeln: a × b är vinkelrät mot båda, upp ur planet här.", 12.5, C.ink);
+    s += arrow(80, 200, 250, 160, C.accent, 4) + txt(258, 158, "a (första)", 13, C.accent, "start", 700);
+    s += arrow(80, 200, 160, 120, C.good, 4) + txt(146, 110, "b (andra)", 13, C.good);
+    s += '<path d="M 215 172 A 90 90 0 0 1 172 132" fill="none" stroke="' + C.warn + '" stroke-width="2" marker-end="url(#ah)" stroke-dasharray="5 4"/>';
+    s += txt(228, 140, "sväng från a till b", 10.5, C.warn, "start");
+    s += arrow(80, 200, 80, 60, C.bad, 5) + txt(92, 66, "a × b (tummen!)", 13, C.bad, "start", 700);
+    s += txt(210, 26, "Högerhandsregeln: fingrar längs a → sväng mot b → tummen = a × b (vinkelrät mot båda).", 11.5, C.ink);
     return svgWrap(s);
   },
   matris: function () {

@@ -110,23 +110,33 @@ const MODULES = [
 {
   id: "m3",
   title: "3. Kryssprodukt (bara i 3D)",
-  intro: "Kryssprodukten tar två vektorer i rummet och ger en tredje vektor som är vinkelrät mot båda.",
+  intro: "Kryssprodukten a × b tar två vektorer i rummet och ger en NY vektor som står vinkelrätt (90°) mot båda. Här är exakt vad du ska göra, steg för steg.",
   sections: [
     {
-      title: "3.1 Vad är kryssprodukten?",
+      title: "3.1 Intuition först: vad ska kryssprodukten göra?",
       img: "kryss",
-      html: "<p>" + vec(["a₁","a₂","a₃"]) + " × " + vec(["b₁","b₂","b₃"]) + " = " + vec(["a₂b₃ − a₃b₂","a₃b₁ − a₁b₃","a₁b₂ − a₂b₁"]) + ". Riktningen fås med <strong>högerhandsregeln</strong>: peka fingrarna längs a, sväng mot b – tummen visar a × b.</p>" + exmp("Exempel", vec([1,0,0]) + " × " + vec([0,1,0]) + " = " + vec([0,0,1]) + " – z-axeln uppåt.)") + tips("Kryssa x-axeln med y-axeln = z-axeln. Kom ihåg: x × y = z.") + why("Ger riktningar/normaler till ytor i 2D/3D-element."),
+      html: "<p>Tänk dig två pilar ut från samma punkt: a och b. Kryssprodukten a × b ska peka <strong>rakt ut ur planet</strong> som a och b ligger i – alltså vinkelrätt mot båda.</p><p>Vilket håll (upp eller ner)? Det bestämmer <strong>högerhandsregeln</strong>:</p><ol><li>Håll upp höger hand och peka fingrarna längs <strong>första</strong> vektorn a.</li><li>Krök fingrarna mot <strong>andra</strong> vektorn b (kortaste vägen, se den streckade pilen i bilden).</li><li>Din <strong>tumme</strong> pekar nu i riktningen för a × b.</li></ol>" + tips("Minnesregel för axlarna (i cirkulär ordning): x × y = z, y × z = x, z × x = y. Byter du ordning får du minus: y × x = −z.") + why("I FEM behövs vinkelräta riktningar när man bygger 2D/3D-element – t.ex. normaler till elementytor.") + mistake("a × b är en VEKTOR (tre tal), inte ett enda tal! Skalärprodukten a·b (modul 2) är talet. Kryss = riktning vinkelrätt, punkt = ”hur mycket åt samma håll”."),
       exercises: [
-        { id: "m3e1", type: "vec", title: "Övning 3.1", prompt: "Beräkna " + vec([1,0,0]) + " × " + vec([0,1,0]) + ".", answer: [0,0,1], hint: "x × y = z.", solution: "<strong>(0, 0, 1)</strong>." },
-        { id: "m3e2", type: "vec", title: "Övning 3.2", prompt: "Beräkna " + vec([1,2,3]) + " × " + vec([4,5,6]) + ".", answer: [-3,6,-3], hint: "2·6−3·5 = −3; 3·4−1·6 = 6; 1·5−2·4 = −3.", solution: "<strong>(−3, 6, −3)</strong>." },
-        { id: "m3e3", type: "mc", title: "Övning 3.3", prompt: "Vad blir a × a?", options: ["a", "0-vektorn", "−a"], answer: 1, hint: "En vektor är parallell med sig själv.", solution: "a × a = <strong>0-vektorn</strong>." }
+        { id: "m3e1", type: "mc", title: "Övning 3.1 – Axelregeln", prompt: "Vad blir x × y (enhetsvektorerna längs axlarna)?", options: ["z", "−z", "0-vektorn", "x"], answer: 0, hint: "x × y = z enligt cirkelregeln.", solution: "<strong>z</strong> (tummen pekar uppåt)." },
+        { id: "m3e2", type: "mc", title: "Övning 3.2 – Omvänd ordning", prompt: "Vad blir y × x?", options: ["z", "−z", "0-vektorn"], answer: 1, hint: "Byt ordning → byt tecken.", solution: "y × x = <strong>−z</strong>." },
+        { id: "m3e3", type: "vec", title: "Övning 3.3 – Beräkna", prompt: "Beräkna " + vec([1,0,0]) + " × " + vec([0,1,0]) + ". Svara som vektor, t.ex. <em>0, 0, 1</em>.", answer: [0,0,1], hint: "Det är samma som x × y.", solution: "<strong>(0, 0, 1)</strong>." }
       ]
     },
     {
-      title: "3.2 Arean av parallellogrammet",
-      html: "<p>||a × b|| = arean som a och b spänner upp. Dessutom: a × b = −(b × a).</p>" + tips("Kryssproduktens längd = area – inte vinkel. Skalärproduktens längd handlar om vinkeln.") + why("Elementareor i 2D/3D-mesh beräknas med kryssprodukter."),
+      title: "3.2 Formeln: så räknar du ut komponenterna",
+      img: "kryss_steg",
+      html: "<p>Formeln är:</p><p style='text-align:center;font-size:1.05rem'>" + vec(["a₁","a₂","a₃"]) + " × " + vec(["b₁","b₂","b₃"]) + " = " + vec(["a₂b₃ − a₃b₂","a₃b₁ − a₁b₃","a₁b₂ − a₂b₁"]) + "</p><p>Varje komponent är ett litet 2×2-tal (se bilden): komponenten som saknas i index (t.ex. x) räknas av de andra två indexen i cirkulär ordning. Samma formel kan skrivas som en ”fiktiv determinant”: a × b = det " + mat([["i","j","k"],["a₁","a₂","a₃"],["b₁","b₂","b₃"]]) + ".</p>" + exmp("Helt uträknat exempel: (1, 2, 3) × (4, 5, 6)", "<ol><li>x-komponent: a₂b₃ − a₃b₂ = 2·6 − 3·5 = 12 − 15 = <strong>−3</strong></li><li>y-komponent: a₃b₁ − a₁b₃ = 3·4 − 1·6 = 12 − 6 = <strong>6</strong></li><li>z-komponent: a₁b₂ − a₂b₁ = 1·5 − 2·4 = 5 − 8 = <strong>−3</strong></li><li>Svar: a × b = (−3, 6, −3)</li></ol>") + tips("Skriv alltid upp de tre komponenterna först, fyll i talen, räkna varje parentes för sig. Då blir det sällan fel.") + mistake("Vanligaste felet: fel ordning i subtraktionen (det är a₂b₃ − a₃b₂, inte tvärtom) eller att blanda ihop a och b. Ordningen på hela kryssprodukten spelar roll: a × b = −(b × a)."),
       exercises: [
-        { id: "m3e4", type: "num", title: "Övning 3.4 – Area", prompt: "Arean av parallellogrammet som " + vec([2,0,0]) + " och " + vec([0,3,0]) + " spänner upp?", answer: 6, hint: "||(2,0,0) × (0,3,0)|| = ||(0,0,6)||.", solution: "Arean = <strong>6</strong>." }
+        { id: "m3e4", type: "vec", title: "Övning 3.4 – Steg för steg", prompt: "Beräkna " + vec([1,2,3]) + " × " + vec([4,5,6]) + " komponent för komponent. Svara som vektor.", answer: [-3,6,-3], hint: "x: 2·6−3·5 = −3. y: 3·4−1·6 = 6. z: 1·5−2·4 = −3. (Se exemplet ovan – det är samma tal!)", solution: "<strong>(−3, 6, −3)</strong>." },
+        { id: "m3e5", type: "vec", title: "Övning 3.5 – Annat exempel", prompt: "Beräkna " + vec([2,0,1]) + " × " + vec([0,3,0]) + ".", answer: [-3,0,6], hint: "x: 0·0−1·3 = −3. y: 1·0−2·0 = 0. z: 2·3−0·0 = 6.", solution: "<strong>(−3, 0, 6)</strong>." }
+      ]
+    },
+    {
+      title: "3.3 Egenskaper: area, a × a, och att ordningen ger minus",
+      html: "<p><strong>Arean:</strong> ||a × b|| = arean av parallellogrammet som a och b spänner upp (längden av kryssproduktvektorn).</p><p><strong>a × a = 0</strong> (en vektor är parallell med sig själv, ingen area). <strong>a × b = −(b × a)</strong>.</p>" + tips("Kryssproduktens LÄNGD = area. Skalärproduktens värde handlar om VINKELN. Håll isär dem!") + why("Elementareor i 2D/3D-mesh (t.ex. triangelelement) beräknas just med ||a × b|| / 2."),
+      exercises: [
+        { id: "m3e6", type: "num", title: "Övning 3.6 – Area", prompt: "Beräkna arean av parallellogrammet som " + vec([2,0,0]) + " och " + vec([0,3,0]) + " spänner upp (i 3D).", answer: 6, hint: "(2,0,0) × (0,3,0) = (0,0,6); arean = ||(0,0,6)||.", solution: "Arean = <strong>6</strong>. (Triangelns area hade blivit 3 = 6/2.)" },
+        { id: "m3e7", type: "mc", title: "Övning 3.7", prompt: "Vad blir a × a?", options: ["a", "0-vektorn", "−a"], answer: 1, hint: "Ingen area mellan en vektor och sig själv.", solution: "a × a = <strong>0-vektorn</strong>." }
       ]
     }
   ]
